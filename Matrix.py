@@ -1,7 +1,15 @@
 import copy
+from typing import List
+
 
 class Matrix:
     #Describes matrices and their functions
+
+def __init__(self, matrix : List[list], name : str = "a" ):
+    self.name = name
+    self.matrix = matrix
+
+
 
 def calc_determinant(a):
     if len(a) == 1:
