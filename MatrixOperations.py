@@ -21,43 +21,44 @@ def calc_determinant(matrix: Matrix) -> Union[int, float]:
 
 
 def get_minor(matrix: Matrix, line_number: int, column_number: int) -> Union[int, float]:
-    minor = [row[:column_number] + row[column_number + 1:] for row in (matrix[:line_number] + matrix[line_number:])]
+    minor = [row[:column_number] + row[column_number + 1:] for row in (matrix[:line_number] + matrix[line_number + 1:])]
     return calc_determinant(minor)
 
 
-def get_minors_of_i_row(matrix: Matrix, line_number: int):
+def get_minors_of_i_row(matrix: Matrix, line_number: int) -> list:
     minors = []
     for j in range(len(matrix)):
         minors.append(get_minor(matrix, line_number, j))
     return minors
 
 
-def get_matrix_of_minors(matrix: Matrix):
+def get_matrix_of_minors(matrix: Matrix) -> Matrix:
     a = []
     for i in range(len(matrix)):
         a.append(get_minors_of_i_row(matrix, i))
     return a
 
 
-def get_sign(i, j):
+def get_sign(i: int, j: int) -> int:
     return (-1) ** (i + j)
 
 
-def get_adj_matrix(matrix: Matrix):
-    return [[get_sign(i, j) * get_matrix_of_minors(matrix)[j][i] for i in range(len(matrix))] for j in
-            range(len(matrix))]
+def get_adj_matrix(matrix: Matrix) -> Matrix:
+    return [[get_sign(i, j) * get_matrix_of_minors(matrix)[j][i] for i in range(len(matrix))]
+            for j in range(len(matrix))]
 
 
-def get_invert_matrix(matrix: Matrix):
+def get_invert_matrix(matrix: Matrix) -> Matrix:
     det = calc_determinant(matrix)
     return multiply_by_num(get_adj_matrix(transpose_matrix(matrix)), 1 / det)
 
 
-def swap_indexes(matrix: Matrix, i, j):
+def swap_indexes(matrix: Matrix, i: int, j: int):
+    # TODO: check for square shape
     matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
 
-def transpose_matrix(matrix: Matrix):
+def transpose_matrix(matrix: Matrix) -> Matrix:
     m2 = copy.deepcopy(matrix)
     for i in range(0, len(matrix) - 1):
         for j in range(i + 1, len(matrix)):
@@ -76,5 +77,5 @@ def multiply_by_vec(matrix: Matrix, vector: list) -> list:
     return m
 
 
-def multiply_by_num(matrix, number):
+def multiply_by_num(matrix: Matrix, number: Union[int, float]) -> Matrix:
     return [number * row[i] for row in matrix for i in range(len(row))]
