@@ -3,7 +3,6 @@ from typing import List, Union
 import MatrixExceptions
 import MatrixProperties
 
-
 Matrix = List[list]
 
 
@@ -65,12 +64,24 @@ def swap_indexes(matrix: Matrix, i: int, j: int):
 
 
 def transpose_matrix(matrix: Matrix) -> Matrix:
-    # TODO: check for square shape (rewrite for all matrices)
-    m2 = copy.deepcopy(matrix)
-    for i in range(0, len(matrix) - 1):
-        for j in range(i + 1, len(matrix)):
-            swap_indexes(m2, j, i)
-    return m2
+    if not MatrixProperties.is_matrix(matrix):
+        raise MatrixExceptions.MatrixException("The instance is not matrix")
+
+    m = copy.deepcopy(matrix)
+
+    if MatrixProperties.is_square(matrix):
+        for i in range(0, len(matrix) - 1):
+            for j in range(i + 1, len(matrix)):
+                swap_indexes(m, j, i)
+        return m
+    else:
+        m2 = []
+        for j in range(len(matrix[0])):
+            line = []
+            for i in range(len(matrix)):
+                line.append(m[i][j])
+            m2.append(line)
+        return m2
 
 
 def multiply_by_vec(matrix: Matrix, vector: list) -> list:
@@ -87,3 +98,7 @@ def multiply_by_vec(matrix: Matrix, vector: list) -> list:
 
 def multiply_by_num(matrix: Matrix, number: Union[int, float]) -> Matrix:
     return [number * row[i] for row in matrix for i in range(len(row))]
+
+
+c = [[1, 3, 5], [2, 4, 6]]
+print(transpose_matrix(c))
