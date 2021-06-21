@@ -17,3 +17,10 @@ def is_numeric(matrix: Matrix) -> bool:
             if not isinstance(matrix[i][j], int or float):
                 return False
     return True
+
+
+def are_multipliable(matrix: Matrix, vec: list) -> bool:
+    for i in range(len(matrix)):
+        if len(matrix[i]) != len(vec):
+            return False
+    return True
