@@ -1,6 +1,5 @@
 from typing import List
 
-
 Matrix = List[list]
 
 
@@ -31,3 +30,11 @@ def is_matrix(matrix: Matrix) -> bool:
         if len(matrix[i]) != len(matrix[i - 1]):
             return False
     return True
+
+
+def is_numeric_matrix(matrix: Matrix) -> bool:
+    return is_numeric(matrix) and is_matrix(matrix)
+
+
+def is_det_calculable(matrix: Matrix) -> bool:
+    return is_numeric_matrix(matrix) and is_square(matrix)
