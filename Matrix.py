@@ -1,5 +1,5 @@
 from typing import List
-import SquareException
+import MatrixExceptions
 
 
 class Matrix:
