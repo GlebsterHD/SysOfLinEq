@@ -1,11 +1,16 @@
 import copy
 from typing import List, Union
+import MatrixExceptions
+import MatrixProperties
+
 
 Matrix = List[list]
 
 
 def calc_determinant(matrix: Matrix) -> Union[int, float]:
-    # TODO: Add a check for square shape
+    if not MatrixProperties.is_det_calculable(matrix):
+        raise MatrixExceptions.MatrixException("Can not calculate the determinant")
+
     if len(matrix) == 1:
         return matrix[0][0]
 
@@ -54,7 +59,8 @@ def get_invert_matrix(matrix: Matrix) -> Matrix:
 
 
 def swap_indexes(matrix: Matrix, i: int, j: int):
-    # TODO: check for square shape
+    if not MatrixProperties.is_square(matrix):
+        raise MatrixExceptions.MatrixException("Matrix is not square")
     matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
 
@@ -68,7 +74,8 @@ def transpose_matrix(matrix: Matrix) -> Matrix:
 
 
 def multiply_by_vec(matrix: Matrix, vector: list) -> list:
-    # TODO: Написать исключение про разную длину вектора и матрицы
+    if not MatrixProperties.are_multipliable(matrix, vector):
+        raise MatrixExceptions.MatrixException("Incorrect dimensions of matrix or vector")
     m = []
     for i in range(len(vector)):
         total = 0
