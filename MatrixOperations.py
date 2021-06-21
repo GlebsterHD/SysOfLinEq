@@ -59,6 +59,7 @@ def swap_indexes(matrix: Matrix, i: int, j: int):
 
 
 def transpose_matrix(matrix: Matrix) -> Matrix:
+    # TODO: check for square shape (rewrite for all matrices)
     m2 = copy.deepcopy(matrix)
     for i in range(0, len(matrix) - 1):
         for j in range(i + 1, len(matrix)):
