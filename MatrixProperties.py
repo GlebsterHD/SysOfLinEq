@@ -24,3 +24,10 @@ def are_multipliable(matrix: Matrix, vec: list) -> bool:
         if len(matrix[i]) != len(vec):
             return False
     return True
+
+
+def is_matrix(matrix: Matrix) -> bool:
+    for i in range(1, len(matrix)):
+        if len(matrix[i]) != len(matrix[i - 1]):
+            return False
+    return True
