@@ -1,14 +1,17 @@
 import copy
 from typing import List, Union
-import MatrixExceptions
-import MatrixProperties
+import MatrixExceptions as Me
+import MatrixProperties as Mp
 
 Matrix = List[list]
 
 
-def calc_determinant(matrix: Matrix) -> Union[int, float]:
-    if not MatrixProperties.is_det_calculable(matrix):
-        raise MatrixExceptions.MatrixException("Can not calculate the determinant")
+def calc_determinant(matrix: Matrix) -> Union[int, float, None]:
+    try:
+        Mp.is_det_calculable(matrix)
+    except Me.MatrixException as exc:
+        print(exc)
+        return
 
     if len(matrix) == 1:
         return matrix[0][0]
@@ -54,40 +57,43 @@ def get_adj_matrix(matrix: Matrix) -> Matrix:
 
 def get_invert_matrix(matrix: Matrix) -> Matrix:
     det = calc_determinant(matrix)
-    # Todo: Add an exception for det = 0
+    try:
+        Mp.is_determinant_zero(det)
+    except Me.MatrixException as exc:
+        print(exc)
     return multiply_by_num(get_adj_matrix(transpose_matrix(matrix)), 1 / det)
 
 
 def swap_indexes(matrix: Matrix, i: int, j: int):
-    if not MatrixProperties.is_square(matrix):
-        raise MatrixExceptions.MatrixException("Matrix is not square")
+    try:
+        Mp.is_square(matrix)
+    except Me.MatrixException as exc:
+        print(exc)
     matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
 
 def transpose_matrix(matrix: Matrix) -> Matrix:
-    if not MatrixProperties.is_matrix(matrix):
-        raise MatrixExceptions.MatrixException("The instance is not matrix")
+    try:
+        Mp.is_matrix(matrix)
+    except Me.MatrixException as exc:
+        print(exc)
 
     m = copy.deepcopy(matrix)
-
-    if MatrixProperties.is_square(matrix):
-        for i in range(0, len(matrix) - 1):
-            for j in range(i + 1, len(matrix)):
-                swap_indexes(m, j, i)
-        return m
-    else:
-        m2 = []
-        for j in range(len(matrix[0])):
-            line = []
-            for i in range(len(matrix)):
-                line.append(m[i][j])
-            m2.append(line)
+    m2 = []
+    for j in range(len(matrix[0])):
+        line = []
+        for i in range(len(matrix)):
+            line.append(m[i][j])
+        m2.append(line)
         return m2
 
 
 def multiply_by_vec(matrix: Matrix, vector: list) -> list:
-    if not MatrixProperties.are_multipliable(matrix, vector):
-        raise MatrixExceptions.MatrixException("Incorrect dimensions of matrix or vector")
+    try:
+        Mp.are_multipliable(matrix, vector)
+    except Me.MatrixException as exc:
+        print(exc)
+
     m = []
     for i in range(len(vector)):
         total = 0
@@ -98,4 +104,13 @@ def multiply_by_vec(matrix: Matrix, vector: list) -> list:
 
 
 def multiply_by_num(matrix: Matrix, number: Union[int, float]) -> Matrix:
+    try:
+        Mp.is_numeric_matrix(matrix)
+    except Me.MatrixException as exc:
+        print(exc)
+
     return [number * row[i] for row in matrix for i in range(len(row))]
+
+
+c = [[1, 3, 5], [4, 3, 4], [4, 5.3434, 34]]
+calc_determinant(c)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 import MatrixExceptions as me
 
@@ -47,3 +47,8 @@ def are_multipliable(matrix: Matrix, vec: list):
     for i in range(len(matrix)):
         if len(matrix[i]) != len(vec) or not is_numeric_matrix(matrix):
             raise me.MatrixAndVectorNotMultipliable
+
+
+def is_determinant_zero(det: Union[int, float]):
+    if det == 0:
+        raise me.MatrixDeterminantIsZero
