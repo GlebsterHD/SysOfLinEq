@@ -3,6 +3,7 @@ import MatrixOperations as mo
 
 def solve_by_kramer(matrix, vector):
     det = mo.calc_determinant(matrix)
+    # Todo: Add an exception for det = 0
     if det == 0:
         return "определитель системы равен 0"
 

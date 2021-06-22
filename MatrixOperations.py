@@ -54,6 +54,7 @@ def get_adj_matrix(matrix: Matrix) -> Matrix:
 
 def get_invert_matrix(matrix: Matrix) -> Matrix:
     det = calc_determinant(matrix)
+    # Todo: Add an exception for det = 0
     return multiply_by_num(get_adj_matrix(transpose_matrix(matrix)), 1 / det)
 
 
